@@ -1,0 +1,434 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Project 2 Pattern Formation</title><meta name="generator" content="MATLAB 8.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-03-08"><meta name="DC.source" content="project2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Project 2 Pattern Formation</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Question 1</a></li><li><a href="#5">Question 2</a></li><li><a href="#11">Question 3</a></li><li><a href="#12">Question 4</a></li><li><a href="#13">Question 5</a></li><li><a href="#15">Question 6</a></li><li><a href="#16">Question 7</a></li><li><a href="#19">Question 8</a></li><li><a href="#24">Question 9</a></li></ul></div><h2>Question 1<a name="1"></a></h2><p>Here we find a steady state solution to</p><p><img src="project2_eq86150.png" alt="$u_t = -uv^2 + F(1 - u)$"></p><p><img src="project2_eq88470.png" alt="$v_t = uv^2 - (c + F)v$"></p><p>By inspection it is: u = 1, v = 0</p><h2>Question 2<a name="5"></a></h2><p>Here we use the 'Forward Euler' method to approximate a numerical solution to the two ODEs which advances step-by-step in time.</p><pre class="codeinput">type <span class="string">fe.m</span>
+</pre><pre class="codeoutput">
+c = 0.065;
+F = 0.03;
+u0 = 0.5;     % initial conditions
+v0 = 0.5;
+dt = 0.1;   % time-step
+tf = 100;   % final time
+numsteps = ceil(tf/dt)    % if not integer then
+dt = tf/numsteps          % adjust dt slightly
+
+figure(1); clf; hold on;
+
+u = u0;
+v = v0;
+for n = 1:numsteps
+    ut = (-u).*(v.^2) + F.*(1.-u);
+    vt = u.*(v.^2) - (c+F).*v;
+    unew = u + dt*ut;
+    vnew = v + dt*vt;
+    u = unew;
+    v = vnew;
+    plot(n*dt, u, 'r*');
+    plot(n*dt, v, 'b*');
+end
+</pre><p>By trying various initial conditions the steady state solution appears to correspond to our initial inspection, u = 1, v = 0. By testing other values in the range (0,1) the ODE system appears to be very stable, resorting to the stable concentrations as t increases.</p><p>Initial conditions of <img src="project2_eq89172.png" alt="$u_0 = 0, v_0 = 1$"></p><p><img vspace="5" hspace="5" src="fepic.png" alt=""> </p><p>Initial conditions of <img src="project2_eq90689.png" alt="$u_0 = v_0 = 0.5$"></p><p><img vspace="5" hspace="5" src="fepicnew.png" alt=""> </p><h2>Question 3<a name="11"></a></h2><p>Small changes in dt do not affect the stability of the system to any great degree. Large changes cause it to 'blow up' producing very large, divergent solution values.</p><pre class="codeinput">dt = 14.286;   <span class="comment">% critical time below which solutions are stable</span>
+</pre><h2>Question 4<a name="12"></a></h2><p>Now we will model the heat equation. Similarly to how we dealt with time, we will discretization space into a vector of discrete values <img src="project2_eq11430.png" alt="$x_i= i\bigtriangleup x, i = 0,1,...,N$">. We then approximate the second derivative on those points with a matrix.</p><pre class="codeinput">type <span class="string">lap1d_matrix.m</span>
+</pre><pre class="codeoutput">
+function L = lap1d_matrix(N,dx);
+
+% make differentiation matrix
+e = ones(N,1);
+L = spdiags([e -2*e e], [-1 0 1], N, N);
+L(1,N) = 1;   % this gives periodic BCs
+L(N,1) = 1;
+L = L/dx^2;
+
+end
+</pre><h2>Question 5<a name="13"></a></h2><p>Here we write a script heat1.m which approximately solves the 1-D heat equation <img src="project2_eq01163.png" alt="$u_t= u_{xx}$"> with periodic boundary conditions on the domain <img src="project2_eq64505.png" alt="$x \in$"> [0,1) by combining the forward Euler code with the matrix L above.</p><pre class="codeinput">type <span class="string">heat1.m</span>
+</pre><pre class="codeoutput">
+N = 16;
+dx = 1/N;
+L = lap1d_matrix(N,dx);
+% make a grid
+x = (0:dx:(1-dx))';     % note, stop before 1
+u0 = sin(2*pi*x);       % initial conditions
+dt = 0.0005;            % time-step
+tf = 0.1;               % final time
+numsteps = ceil(tf/dt)  % if not integer then
+dt = tf/numsteps        % adjust dt slightly
+
+figure(1); clf; hold on;
+
+u = u0;
+for n = 1:numsteps
+    figure(1); clf; hold on;
+    u = u(:);       % straightens out u
+    ut = L*u;
+    unew = u + dt*ut;
+    u = unew;
+    plot(x, u, 'mx');
+end
+
+hold on;
+
+exact = exp((-4)*(pi^2)*0.1)*sin(2*pi*x);
+plot(x, exact, 'c--');
+
+xlabel('x');    legend('Approx Soln', 'Exact Soln')
+
+</pre><p><img vspace="5" hspace="5" src="heat1soln.png" alt=""> </p><h2>Question 6<a name="15"></a></h2><p>Our original ODE code had a time-step restriction to avoid numerical instability. heat1.m (discovered by running the code with various <img src="project2_eq17423.png" alt="$\bigtriangleup t$"> and <img src="project2_eq73780.png" alt="$\bigtriangleup x$">) has a critical value of <img src="project2_eq17423.png" alt="$\bigtriangleup t$">, below which we have numerical stability. It is: dt &lt; 0.8*dx</p><h2>Question 7<a name="16"></a></h2><p>Here we write a script heat2.m which approximately solves the 2-D heat equation <img src="project2_eq81671.png" alt="$u_t= u_{xx} + u_{yy}$"> with periodic boundary conditions on the domain <img src="project2_eq64505.png" alt="$x \in$"> [0,1)^2 by combining the forward Euler code with the matrix L using initial condition of: u = sin(2*pi*x) .* cos(4*pi*y) and a final time of 0.1</p><pre class="codeinput">type <span class="string">heat2.m</span>
+</pre><pre class="codeoutput">
+N = 16;
+dx = 1/N;
+x1d = (0:dx:(1-dx))';   % note, we left off "1"
+y1d = x1d;              % same for y
+[x,y] = meshgrid(x1d,y1d);
+
+dt = 0.0005;            % time-step
+tf = 0.1;               % final time
+numsteps = ceil(tf/dt)  % if not integer then
+dt = tf/numsteps        % adjust dt slightly
+
+L1 = lap1d_matrix(N,dx);
+I = speye(size(L1));
+L = kron(L1,I) + kron(I,L1);
+
+u0 = sin(2*pi*x) .* cos(4*pi*y);     % note: .*
+u = u0;
+surf(x,y,u);                      
+size(u)
+
+figure(1); clf; hold on;
+
+for n = 1:numsteps
+    figure(1); clf; hold on;
+    u = u(:);                       % straightens out u
+    ut = L*u;
+    unew = u + dt.*ut;
+    u = unew;
+    uplot = reshape(u, size(x));
+    surf(x, y, uplot);
+    view(3);
+end
+</pre><p>Plot of initial conditions.</p><p><img vspace="5" hspace="5" src="heat2ini.png" alt=""> </p><p>Plot of solution at <i>t</i> = 0.1</p><p><img vspace="5" hspace="5" src="heat2fin.png" alt=""> </p><h2>Question 8<a name="19"></a></h2><p>Script called grayscott2.m which computes numerical solutions of the Gray&#8211;Scott equations</p><p><img src="project2_eq86330.png" alt="$u_t = \varepsilon u\bigtriangleup u - uv^2 + F(1 - u)$"></p><p><img src="project2_eq30076.png" alt="$v_t = \varepsilon v\bigtriangleup v + uv^2 - (c + F)v$"></p><p>on the square periodic domain [0,1)^2 using a final time of 3000 and initial conditions of</p><pre class="codeinput"><span class="comment">%</span>
+<span class="comment">% u0 = min(1, 10*sqrt((x-.2).^2 + (y-.2).^2) );</span>
+<span class="comment">% v0 = max(0, 1 - 10*sqrt((x-.3).^2 + 2*(y-.3).^2) );</span>
+
+type <span class="string">grayscott2.m</span>
+</pre><pre class="codeoutput">
+N = 100;
+dx = 1/N;
+x1d = (0:dx:(1-dx))';   % note, we left off "1"
+y1d = x1d;              % same for y
+[x,y] = meshgrid(x1d,y1d);
+
+dt = 40*dx;   % time-step
+tf = 3000;   % final time
+numsteps = ceil(tf/dt)    % if not integer then
+dt = tf/numsteps          % adjust dt slightly
+
+L1 = lap1d_matrix(N,dx);
+I = speye(size(L1));
+L = kron(L1,I) + kron(I,L1);
+
+c = 0.065;
+F = 0.06;
+eu = 5*(10^(-5));
+ev = 2*(10^(-5));
+u0 = min(1, 10*sqrt((x-.2).^2 + (y-.2).^2) );
+v0 = max(0, 1 - 10*sqrt((x-.3).^2 + 2*(y-.3).^2) );
+
+figure(1); clf; hold on;
+
+xlim([0,N]); ylim([0,N]);  % static limits
+
+u = u0;
+v = v0;
+for n = 1:numsteps
+    figure(1); hold on;
+    u = u(:);
+    v = v(:);
+    ut = (eu)*L*u - u.*(v.^2) + F.*(1.-u);
+    vt = (ev)*L*v + u.*(v.^2) - (c+F).*v;
+    unew = u + dt*ut;
+    vnew = v + dt*vt;
+    u = unew;
+    v = vnew;
+    if mod(n,100) == 0
+    uplot = reshape(u, size(x));
+    vplot = reshape(v, size(x));
+    h = pcolor(uplot);
+    set(h, 'EdgeColor', 'none');
+    g = pcolor(vplot);
+    set(g, 'EdgeColor', 'none');
+%     frame = getframe(1);
+% im = frame2im(frame);
+% [imind,cm] = rgb2ind(im,256);
+% if n == 100;
+% imwrite(imind,cm,'stripes40.gif','gif', 'Loopcount',inf);
+% else
+% imwrite(imind,cm,'stripes40.gif','gif','WriteMode','append');
+% end
+    end
+end
+</pre><p>For spots we set <i>c</i> = .065 and <i>F</i> = .03</p><p><img vspace="5" hspace="5" src="spots40.gif" alt=""> </p><p>For stripes we set <i>c</i> = .065 and <i>F</i> = .06</p><p><img vspace="5" hspace="5" src="stripes40.gif" alt=""> </p><h2>Question 9<a name="24"></a></h2><p>Setting the <img src="project2_eq55349.png" alt="$\varepsilon$"> diffusion coefficients constants to 0 leads to the system 'dying' as the initial concentration of colour disappears. A similar 'disappearance' happens when the <img src="project2_eq55349.png" alt="$\varepsilon$"> constants are nonzero but equal, but jsut at a different rate.</p><pre class="codeinput">eu = 0
+ev = eu
+</pre><pre class="codeoutput">
+eu =
+
+     0
+
+
+ev =
+
+     0
+
+</pre><p><img vspace="5" hspace="5" src="euev0.gif" alt=""> </p><pre class="codeinput">eu = 5*(10^-5)
+ev = eu
+</pre><pre class="codeoutput">
+eu =
+
+   5.0000e-05
+
+
+ev =
+
+   5.0000e-05
+
+</pre><p><img vspace="5" hspace="5" src="euevsame.gif" alt=""> </p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2012b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Project 2 Pattern Formation
+
+
+
+%% Question 1
+% Here we find a steady state solution to
+%%
+% $u_t = -uv^2 + F(1 - u)$
+%%
+% $v_t = uv^2 - (c + F)v$
+
+%%
+% By inspection it is:
+% u = 1,
+% v = 0
+
+
+%% Question 2
+% Here we use the 'Forward Euler' method to approximate a numerical
+% solution to the two ODEs which advances step-by-step in time.
+
+type fe.m
+
+%%
+% 
+% By trying various initial conditions the steady state solution
+% appears to correspond to our initial inspection, u = 1, v = 0.
+% By testing other values in the range (0,1) the ODE system appears
+% to be very stable, resorting to the stable concentrations as t increases.
+
+%%
+% Initial conditions of
+% $u_0 = 0, v_0 = 1$
+%%
+%
+% <<fepic.png>>
+% 
+
+%%
+% Initial conditions of
+% $u_0 = v_0 = 0.5$
+%%
+%
+% <<fepicnew.png>>
+% 
+
+
+%% Question 3
+% Small changes in dt do not affect the stability of the system to any
+% great degree. Large changes cause it to 'blow up' producing very
+% large, divergent solution values.
+
+
+dt = 14.286;   % critical time below which solutions are stable
+
+
+
+%% Question 4
+% Now we will model the heat equation.
+% Similarly to how we dealt with time, we will discretization
+% space into a vector of discrete values $x_i= i\bigtriangleup x, i = 0,1,...,N$. We then
+% approximate the second derivative on those points with a matrix.
+
+type lap1d_matrix.m
+
+
+
+
+%% Question 5
+% Here we write a script heat1.m which approximately solves the 1-D heat
+% equation $u_t= u_{xx}$ with periodic boundary conditions on the domain
+% $x \in$ [0,1) by combining the forward Euler code with the matrix L above.
+
+type heat1.m
+
+%%
+% 
+% <<heat1soln.png>>
+% 
+
+
+
+
+%% Question 6
+% Our original ODE code had a time-step restriction to avoid numerical
+% instability. heat1.m (discovered by running the code with various
+% $\bigtriangleup t$ and $\bigtriangleup x$) has a critical value of
+% $\bigtriangleup t$, below which we have numerical stability. It is:
+% dt < 0.8*dx
+
+
+
+%% Question 7
+% Here we write a script heat2.m which approximately solves the 2-D heat
+% equation $u_t= u_{xx} + u_{yy}$ with periodic boundary conditions on the domain
+% $x \in$ [0,1)^2 by combining the forward Euler code with the matrix L
+% using initial condition of:
+% u = sin(2*pi*x) .* cos(4*pi*y)
+% and a final time of 0.1
+
+type heat2.m
+
+%%
+% Plot of initial conditions.
+%
+% <<heat2ini.png>>
+% 
+
+%%
+% Plot of solution at _t_ = 0.1
+%
+% <<heat2fin.png>>
+% 
+
+
+
+
+%% Question 8
+% Script called grayscott2.m which computes numerical solutions
+% of the Gray–Scott equations
+%%
+% $u_t = \varepsilon u\bigtriangleup u - uv^2 + F(1 - u)$
+%%
+% $v_t = \varepsilon v\bigtriangleup v + uv^2 - (c + F)v$
+%
+% on the square periodic domain [0,1)^2
+% using a final time of 3000 and initial conditions of
+
+%
+% u0 = min(1, 10*sqrt((x-.2).^2 + (y-.2).^2) );
+% v0 = max(0, 1 - 10*sqrt((x-.3).^2 + 2*(y-.3).^2) );
+
+type grayscott2.m
+
+%%
+% For spots we set _c_ = .065 and _F_ = .03
+%
+% <<spots40.gif>>
+% 
+
+%%
+% For stripes we set _c_ = .065 and _F_ = .06
+%
+% <<stripes40.gif>>
+% 
+
+
+
+
+%% Question 9
+% Setting the $\varepsilon$ diffusion coefficients constants to 0 leads to
+% the system 'dying' as the initial concentration of colour disappears.
+% A similar 'disappearance' happens when the $\varepsilon$ constants are
+% nonzero but equal, but jsut at a different rate.
+
+eu = 0
+ev = eu
+
+%%
+% 
+% <<euev0.gif>>
+% 
+
+eu = 5*(10^-5)
+ev = eu
+
+%%
+% 
+% <<euevsame.gif>>
+% 
+
+
+
+
+##### SOURCE END #####
+--></body></html>
